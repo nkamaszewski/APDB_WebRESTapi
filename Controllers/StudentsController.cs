@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using APDB_WebRESTapi.DAL;
 using APDB_WebRESTapi.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -12,10 +13,18 @@ namespace APDB_WebRESTapi.Controllers
     [Route("api/students")]
     public class StudentsController : ControllerBase
     {
-        [HttpGet]
-        public string GetStudents(string orderBy)
+        private readonly IStudentDBService _studentDBService;
+
+        public StudentsController(IStudentDBService studentDBService)
         {
-            return $"Kowalski, Milewski, Andrzejewski sortowanie={orderBy}";
+             _studentDBService = studentDBService;
+        }
+    
+
+        [HttpGet]
+        public IActionResult GetStudents(string orderBy)
+        {
+            return Ok(_studentDBService.GetStudents());
         }
 
         [HttpGet("{id}")]
