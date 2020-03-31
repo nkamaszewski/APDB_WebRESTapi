@@ -9,5 +9,6 @@ namespace APDB_WebRESTapi.DAL
    public interface IStudentDBService
     {
         IEnumerable<Student> GetStudents();
+        IEnumerable<Enrollment> GetStudentEnrollment(string studentIndexNumber);
     }
 }

@@ -38,5 +38,35 @@ namespace APDB_WebRESTapi.DAL
 
             return output;
         }
+
+
+        public IEnumerable<Enrollment> GetStudentEnrollment(string studentIndexNumber)
+        {
+            var output = new List<Enrollment>();
+            using (var client = new SqlConnection(SqlConn))
+            {
+                using (var command = new SqlCommand())
+                {
+                    command.Connection = client;
+                    command.CommandText = $"SELECT IdEnrollment, Semester, Studies.Name, StartDate FROM Enrollment INNER JOIN Studies ON Enrollment.IdStudy = Studies.IdStudy WHERE Enrollment.IdEnrollment = (SELECT IdEnrollment FROM Student WHERE Student.IndexNumber =@studentIndexNumber)";
+                    command.Parameters.AddWithValue("studentIndexNumber", studentIndexNumber);
+
+                    client.Open();
+                    var dataReader = command.ExecuteReader();
+
+                    while (dataReader.Read())
+                    {
+                        output.Add(new Enrollment
+                        {
+                            IdEnrollment = int.Parse(dataReader["IdEnrollment"].ToString()),
+                            Name = dataReader["Name"].ToString(),
+                            Semester = int.Parse(dataReader["Semester"].ToString()),
+                            StartDate = DateTime.Parse(dataReader["StartDate"].ToString())
+                        });
+                    }
+                }
+            }
+            return output;
+        }
     }
 }

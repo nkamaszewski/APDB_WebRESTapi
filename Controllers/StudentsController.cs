@@ -20,7 +20,6 @@ namespace APDB_WebRESTapi.Controllers
              _studentDBService = studentDBService;
         }
     
-
         [HttpGet]
         public IActionResult GetStudents(string orderBy)
         {
@@ -42,6 +41,12 @@ namespace APDB_WebRESTapi.Controllers
             }
         }
 
+        [HttpGet("enrollments/{studentIndexNumber}")]
+        public IActionResult GetStudentsEnrollments(string studentIndexNumber)
+        {
+            return Ok(_studentDBService.GetStudentEnrollment(studentIndexNumber));
+        }
+
         [HttpPost]
         public IActionResult CreateStudent(Student student)
         {
@@ -60,5 +65,6 @@ namespace APDB_WebRESTapi.Controllers
         {
             return Ok($"student o {id} - Usuwanie ukończone");
         }
+
     }
 }
