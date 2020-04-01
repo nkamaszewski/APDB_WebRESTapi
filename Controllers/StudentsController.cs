@@ -41,7 +41,7 @@ namespace APDB_WebRESTapi.Controllers
             }
         }
 
-        [HttpGet("enrollments/{studentIndexNumber}")]
+        [HttpGet("{studentIndexNumber}/enrollment")]
         public IActionResult GetStudentsEnrollments(string studentIndexNumber)
         {
             return Ok(_studentDBService.GetStudentEnrollment(studentIndexNumber));
