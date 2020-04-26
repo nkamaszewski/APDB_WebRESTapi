@@ -26,6 +26,7 @@ namespace APDB_WebRESTapi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddScoped<IStudentDBService, StudentDBService>();
+            services.AddScoped<IEnrollmentDBService, EnrollmentDBService>();
             services.AddControllers();
         }
 
