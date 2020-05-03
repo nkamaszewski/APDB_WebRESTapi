@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using APDB_WebRESTapi.DAL;
+using APDB_WebRESTapi.DTOs;
 using APDB_WebRESTapi.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -22,15 +23,16 @@ namespace APDB_WebRESTapi.Controllers
         }
 
         [HttpPost]
-        public IActionResult RegisterNewStudent(RegistrationNewStudentDTO registrationNewStudent)
+        public IActionResult RegisterNewStudent(RegistrationStudentRequest registrationStudent)
         {
-            if (!RegistrationNewStudentDTO.isValid(registrationNewStudent))
+            RegisterStudentStatus registerStudentStatus = _enrollmentDBService.RegisterStudent(registrationStudent);
+
+            if(registerStudentStatus.Status == 400)
             {
-                return BadRequest(); 
-            } else
-            {
-                return Ok();
+                return BadRequest(registerStudentStatus.Message);
             }
+
+            return Ok(registerStudentStatus.enrollment);
         }
     }
 }
