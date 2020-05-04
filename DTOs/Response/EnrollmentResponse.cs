@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace APDB_WebRESTapi.DTOs.Response
 {
-    public class RegistrationStudentEnrollmentResponse
+    public class EnrollmentResponse
     {
         public int IdEnrollment { get; set; }
         public int IdStudy { get; set; }

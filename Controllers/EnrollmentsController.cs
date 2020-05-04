@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using APDB_WebRESTapi.DAL;
 using APDB_WebRESTapi.DTOs;
+using APDB_WebRESTapi.DTOs.Requests;
 using APDB_WebRESTapi.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -25,14 +26,28 @@ namespace APDB_WebRESTapi.Controllers
         [HttpPost]
         public IActionResult RegisterNewStudent(RegistrationStudentRequest registrationStudent)
         {
-            RegisterStudentStatus registerStudentStatus = _enrollmentDBService.RegisterStudent(registrationStudent);
+            EnrollmentStatus enrollmentStatus = _enrollmentDBService.RegisterStudent(registrationStudent);
 
-            if(registerStudentStatus.Status == 400)
+            if(enrollmentStatus.Status == 400)
             {
-                return BadRequest(registerStudentStatus.Message);
+                return BadRequest(enrollmentStatus.Message);
             }
 
-            return Ok(registerStudentStatus.enrollment);
+            return Ok(enrollmentStatus.enrollment);
         }
+
+        [HttpPost("promotions")]
+        public IActionResult PromoteStudents(PromoteStudentsRequest promoteStudentsRequest)
+        {
+            EnrollmentStatus enrollmentStatus = _enrollmentDBService.PromoteStudents(promoteStudentsRequest);
+
+            if (enrollmentStatus.Status == 400)
+            {
+                return BadRequest(enrollmentStatus.Message);
+            }
+
+            return Ok(enrollmentStatus.enrollment);
+        }
+
     }
 }

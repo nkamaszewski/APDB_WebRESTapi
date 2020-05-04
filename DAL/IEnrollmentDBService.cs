@@ -1,4 +1,5 @@
 ﻿using APDB_WebRESTapi.DTOs;
+using APDB_WebRESTapi.DTOs.Requests;
 using APDB_WebRESTapi.Models;
 using System;
 using System.Collections.Generic;
@@ -9,6 +10,7 @@ namespace APDB_WebRESTapi.DAL
 {
     public interface IEnrollmentDBService
     {
-        public RegisterStudentStatus RegisterStudent(RegistrationStudentRequest registrationStudentRequest);
+        public EnrollmentStatus RegisterStudent(RegistrationStudentRequest registrationStudentRequest);
+        public EnrollmentStatus PromoteStudents(PromoteStudentsRequest promoteStudentsRequest);
     }
 }

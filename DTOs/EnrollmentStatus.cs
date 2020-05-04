@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 
 namespace APDB_WebRESTapi.DTOs
 {
-    public class RegisterStudentStatus
+    public class EnrollmentStatus
     {
         public int Status { get; set; }
         public string Message { get; set; }
-        public RegistrationStudentEnrollmentResponse enrollment { get; set; }
+        public EnrollmentResponse enrollment { get; set; }
     }
 }

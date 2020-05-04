@@ -1,8 +1,10 @@
 ﻿using APDB_WebRESTapi.DTOs;
+using APDB_WebRESTapi.DTOs.Requests;
 using APDB_WebRESTapi.DTOs.Response;
 using APDB_WebRESTapi.Models;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
@@ -12,9 +14,9 @@ namespace APDB_WebRESTapi.DAL
     public class EnrollmentDBService : IEnrollmentDBService
     {
         private string SqlConn = "Data Source=db-mssql;Initial Catalog=s16456;Integrated Security=True";
-        public RegisterStudentStatus RegisterStudent(RegistrationStudentRequest registrationStudentRequest)
+        public EnrollmentStatus RegisterStudent(RegistrationStudentRequest registrationStudentRequest)
         {
-            RegisterStudentStatus registerStudentStatus = new RegisterStudentStatus();
+            EnrollmentStatus registerStudentStatus = new EnrollmentStatus();
             using (var client = new SqlConnection(SqlConn))
             using (var command = new SqlCommand())
             {
@@ -106,7 +108,7 @@ namespace APDB_WebRESTapi.DAL
                     command.ExecuteNonQuery();
                     transaction.Commit();
 
-                    RegistrationStudentEnrollmentResponse enrollment = new RegistrationStudentEnrollmentResponse()
+                    EnrollmentResponse enrollment = new EnrollmentResponse()
                     {
                         IdEnrollment = IdEnrollemnt,
                         Semester = 1,
@@ -130,6 +132,62 @@ namespace APDB_WebRESTapi.DAL
 
             }
             return registerStudentStatus;
+        }
+
+
+        public EnrollmentStatus PromoteStudents(PromoteStudentsRequest promoteStudentsRequest)
+        {
+            EnrollmentStatus registerStudentStatus = new EnrollmentStatus();
+            using (var client = new SqlConnection(SqlConn))
+            using (var command = new SqlCommand())
+            {
+
+                command.Connection = client;
+                client.Open();
+
+                //var transaction = client.BeginTransaction();
+                //command.Transaction = transaction;
+                //try
+                //{
+                    command.CommandText = $"SELECT IdEnrollment FROM Enrollment WHERE Enrollment.Semester = @semester AND IdStudy = (SELECT IdStudy FROM Studies WHERE Studies.Name = @name);";
+                    command.Parameters.AddWithValue("semester", promoteStudentsRequest.Semester);
+                    command.Parameters.AddWithValue("name", promoteStudentsRequest.Studies);
+
+                    var dataReader = command.ExecuteReader();
+
+                    // study doesn't exist
+                    if (!dataReader.Read())
+                    {
+                        registerStudentStatus.enrollment = null;
+                        registerStudentStatus.Status = 400;
+                        registerStudentStatus.Message = "No studies with given semester in dataBase";
+                        return registerStudentStatus;
+                    }
+
+                    dataReader.Close();
+
+                    command.CommandText = "PromoteStudents";
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.Clear();
+                    command.Parameters.AddWithValue("@Studies", promoteStudentsRequest.Studies);
+                    command.Parameters.AddWithValue("@Semester", promoteStudentsRequest.Semester);
+                   int rowAffected = command.ExecuteNonQuery();
+
+                    registerStudentStatus.enrollment = null;
+                    registerStudentStatus.Status = 201;
+                    registerStudentStatus.Message = "promoted";
+
+              //  }
+                //catch (SqlException exc)
+                //{
+                //    registerStudentStatus.enrollment = null;
+                //    registerStudentStatus.Status = 400;
+                //    registerStudentStatus.Message = "dataBase exception";
+
+                //}
+
+                return registerStudentStatus;
+            }
         }
     }
 }
