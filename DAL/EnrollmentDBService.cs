@@ -145,10 +145,8 @@ namespace APDB_WebRESTapi.DAL
                 command.Connection = client;
                 client.Open();
 
-                //var transaction = client.BeginTransaction();
-                //command.Transaction = transaction;
-                //try
-                //{
+                try
+                {
                     command.CommandText = $"SELECT IdEnrollment FROM Enrollment WHERE Enrollment.Semester = @semester AND IdStudy = (SELECT IdStudy FROM Studies WHERE Studies.Name = @name);";
                     command.Parameters.AddWithValue("semester", promoteStudentsRequest.Semester);
                     command.Parameters.AddWithValue("name", promoteStudentsRequest.Studies);
@@ -171,22 +169,48 @@ namespace APDB_WebRESTapi.DAL
                     command.Parameters.Clear();
                     command.Parameters.AddWithValue("@Studies", promoteStudentsRequest.Studies);
                     command.Parameters.AddWithValue("@Semester", promoteStudentsRequest.Semester);
+
                    int rowAffected = command.ExecuteNonQuery();
 
-                    registerStudentStatus.enrollment = null;
+                    command.CommandText = $"SELECT * FROM Enrollment WHERE Enrollment.Semester = @semester AND IdStudy = (SELECT IdStudy FROM Studies WHERE Studies.Name = @name);";
+                    command.CommandType = CommandType.Text;
+                    command.Parameters.Clear();
+                    command.Parameters.AddWithValue("@name", promoteStudentsRequest.Studies);
+                    command.Parameters.AddWithValue("@semester", promoteStudentsRequest.Semester + 1);
+
+                    dataReader = command.ExecuteReader();
+
+                    if (!dataReader.Read())
+                    {
+                        registerStudentStatus.enrollment = null;
+                        registerStudentStatus.Status = 400;
+                        registerStudentStatus.Message = "dataBase error!";
+                        return registerStudentStatus;
+                    }
+
+                    EnrollmentResponse enrollment = new EnrollmentResponse()
+                    {
+                        IdEnrollment = int.Parse((dataReader["IdEnrollment"]).ToString()),
+                        Semester = promoteStudentsRequest.Semester + 1,
+                        IdStudy = int.Parse((dataReader["IdStudy"]).ToString()),
+                        StartDate = DateTime.Parse(dataReader["StartDate"].ToString()),
+                    };
+
+
+                    registerStudentStatus.enrollment = enrollment;
                     registerStudentStatus.Status = 201;
                     registerStudentStatus.Message = "promoted";
 
-              //  }
-                //catch (SqlException exc)
-                //{
-                //    registerStudentStatus.enrollment = null;
-                //    registerStudentStatus.Status = 400;
-                //    registerStudentStatus.Message = "dataBase exception";
+            }
+                catch (SqlException exc)
+            {
+                registerStudentStatus.enrollment = null;
+                registerStudentStatus.Status = 400;
+                registerStudentStatus.Message = "dataBase exception";
 
-                //}
+            }
 
-                return registerStudentStatus;
+            return registerStudentStatus;
             }
         }
     }
