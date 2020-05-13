@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using APDB_WebRESTapi.DAL;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -31,12 +32,33 @@ namespace APDB_WebRESTapi
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IStudentDBService studentDBService)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.Use(async (context, next) =>
+            {
+                if (!context.Request.Headers.ContainsKey("Index"))
+                {
+                    context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+                    await context.Response.WriteAsync("Nie podano Indexu w naglowku");
+                    return;
+                }
+
+                var index = context.Request.Headers["Index"].ToString();
+
+                if (!studentDBService.CheckIndex(index))
+                {
+                    context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+                    await context.Response.WriteAsync("Student o numerze indexu " + index + " nie istnieje w bazie");
+                    return;
+                }
+
+               await next();
+            });
 
             app.UseRouting();
 

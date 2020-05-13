@@ -10,5 +10,6 @@ namespace APDB_WebRESTapi.DAL
     {
         IEnumerable<Student> GetStudents();
         IEnumerable<Enrollment> GetStudentEnrollment(string studentIndexNumber);
+        bool CheckIndex(string index);
     }
 }

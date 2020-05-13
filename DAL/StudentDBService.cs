@@ -68,5 +68,21 @@ namespace APDB_WebRESTapi.DAL
             }
             return output;
         }
+
+        public bool CheckIndex(string index)
+        {
+            using (var client = new SqlConnection(SqlConn))
+            using (var command = new SqlCommand())
+            {
+                command.Connection = client;
+                command.CommandText = $"SELECT IndexNumber FROM Student WHERE IndexNumber = @index";
+                command.Parameters.AddWithValue("index", index);
+
+                client.Open();
+                var dataReader = command.ExecuteReader();
+
+                return dataReader.Read();
+            }
+        }
     }
 }
