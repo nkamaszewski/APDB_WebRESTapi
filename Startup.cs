@@ -12,6 +12,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.OpenApi.Models;
 
 namespace APDB_WebRESTapi
 {
@@ -31,6 +32,12 @@ namespace APDB_WebRESTapi
             services.AddScoped<IStudentDBService, StudentDBService>();
             services.AddScoped<IEnrollmentDBService, EnrollmentDBService>();
             services.AddControllers();
+
+            // adding documentation
+            services.AddSwaggerGen(config =>
+            {
+                config.SwaggerDoc("v1", new OpenApiInfo { Title = "APDB_WebRESTapi", Version = "v1" });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -40,6 +47,12 @@ namespace APDB_WebRESTapi
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseSwagger();
+            app.UseSwaggerUI(config =>
+            {
+                config.SwaggerEndpoint("/swagger/v1/swagger.json", "Students App API");
+            });
 
             app.UseMiddleware<LoggingMiddleware>();
 
@@ -61,9 +74,10 @@ namespace APDB_WebRESTapi
                     return;
                 }
 
-               await next();
+                await next();
             });
 
+      
             app.UseRouting();
 
             app.UseAuthorization();

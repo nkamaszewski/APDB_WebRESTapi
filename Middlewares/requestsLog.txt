@@ -8,3 +8,16 @@ Path: /api/enrollments/promotions; Method: POST; Query: ; Body: {
 "Studies": "Sztuka Nowych mediow",
 "Semester": 2
 };
+Path: /api/students; Method: GET; Query: ; Body: ;
+Path: /favicon.ico; Method: GET; Query: ; Body: ;
+Path: /swagger; Method: GET; Query: ; Body: ;
+Path: /favicon.ico; Method: GET; Query: ; Body: ;
+Path: /swagger; Method: GET; Query: ; Body: ;
+Path: /favicon.ico; Method: GET; Query: ; Body: ;
+Path: /api/swagger; Method: GET; Query: ; Body: ;
+Path: /favicon.ico; Method: GET; Query: ; Body: ;
+Path: /api/students; Method: GET; Query: ; Body: ;
+Path: /favicon.ico; Method: GET; Query: ; Body: ;
+Path: /api/students; Method: GET; Query: ; Body: ;
+Path: /favicon.ico; Method: GET; Query: ; Body: ;
+Path: /favicon.ico; Method: GET; Query: ; Body: ;
