@@ -1,5 +1,6 @@
 ﻿using APDB_WebRESTapi.DTOs;
 using APDB_WebRESTapi.DTOs.Requests;
+using APDB_WebRESTapi.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System;
@@ -26,21 +27,35 @@ namespace APDB_WebRESTapi.DAL
             using (var client = new SqlConnection(SqlConn))
             using (var command = new SqlCommand())
             {
+
                 command.Connection = client;
-                command.CommandText = $"SELECT * FROM Student WHERE IndexNumber=@login AND Password=@password";
+                command.CommandText = $"SELECT * FROM Student WHERE IndexNumber=@login";
                 command.Parameters.AddWithValue("login", loginRequest.Login);
-                command.Parameters.AddWithValue("password", loginRequest.Password);
+
+                // !only mock for testing hashing password
+                //var salt = PasswordHashingService.CreateSalt();
+                //var p = PasswordHashingService.Create(loginRequest.Password, salt);
+                //command.CommandText = $"UPDATE Student SET Password = @password, salt = @salt WHERE IndexNumber = 's16456'";
+                //command.Parameters.AddWithValue("password", p);
+                //command.Parameters.AddWithValue("salt", salt);
+
 
                 client.Open();
                 var dataReader = command.ExecuteReader();
+               
 
                 if (!dataReader.Read()) {
                     return null;
                 };
 
-               
+                var userSalt = dataReader["Salt"].ToString();
+                var userHashPassoword = dataReader["Password"].ToString();
 
-                var claims = new[]
+                if (!PasswordHashingService.ValidatePassword(loginRequest.Password, userSalt, userHashPassoword)) {
+                    return null;
+                };
+
+                 var claims = new[]
            {
                 new Claim(ClaimTypes.NameIdentifier, dataReader["IndexNumber"].ToString()),
                 new Claim(ClaimTypes.Name, dataReader["FirstName"].ToString() + "_" + dataReader["LastName"].ToString()),

@@ -126,3 +126,37 @@ Path: /api/login; Method: POST; Query: ; Body: {
 };
 Path: /api/login/refresh-token/b415e079-6945-423e-8b12-1dd4ca8a8322; Method: POST; Query: ; Body: ;
 Path: /api/login/refresh-token/b415e079-6945-423e-8b12-1dd4ca8a8322; Method: POST; Query: ; Body: ;
+Path: /api/students; Method: GET; Query: ; Body: ;
+Path: /favicon.ico; Method: GET; Query: ; Body: ;
+Path: /api/login; Method: POST; Query: ; Body: {
+	"login": "s16456",
+	"password":"sekret123"
+};
+Path: /api/students; Method: GET; Query: ; Body: ;
+Path: /favicon.ico; Method: GET; Query: ; Body: ;
+Path: /api/login; Method: POST; Query: ; Body: {
+	"login": "s16456",
+	"password":"sekret123"
+};
+Path: /api/students; Method: GET; Query: ; Body: ;
+Path: /favicon.ico; Method: GET; Query: ; Body: ;
+Path: /api/login; Method: POST; Query: ; Body: {
+	"login": "s16456",
+	"password":"sekret123"
+};
+Path: /api/students; Method: GET; Query: ; Body: ;
+Path: /favicon.ico; Method: GET; Query: ; Body: ;
+Path: /api/login; Method: POST; Query: ; Body: {
+	"login": "s16456",
+	"password":"sekret123"
+};
+Path: /api/students; Method: GET; Query: ; Body: ;
+Path: /favicon.ico; Method: GET; Query: ; Body: ;
+Path: /api/login; Method: POST; Query: ; Body: {
+	"login": "s16456",
+	"password":"sekret123"
+};
+Path: /api/login; Method: POST; Query: ; Body: {
+	"login": "s16456",
+	"password":"sekret123555"
+};
