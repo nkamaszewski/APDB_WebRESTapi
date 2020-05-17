@@ -21,3 +21,72 @@ Path: /favicon.ico; Method: GET; Query: ; Body: ;
 Path: /api/students; Method: GET; Query: ; Body: ;
 Path: /favicon.ico; Method: GET; Query: ; Body: ;
 Path: /favicon.ico; Method: GET; Query: ; Body: ;
+Path: /api/students; Method: GET; Query: ; Body: ;
+Path: /favicon.ico; Method: GET; Query: ; Body: ;
+Path: /api/students; Method: GET; Query: ; Body: ;
+Path: /api/students; Method: GET; Query: ; Body: ;
+Path: /api/students; Method: GET; Query: ; Body: ;
+Path: /favicon.ico; Method: GET; Query: ; Body: ;
+Path: /api/students; Method: POST; Query: ; Body: {
+	"login": "aaa",
+	"password": "asd"
+};
+Path: /api/students; Method: GET; Query: ; Body: ;
+Path: /favicon.ico; Method: GET; Query: ; Body: ;
+Path: /api/students; Method: POST; Query: ; Body: {
+	"login": "aaa",
+	"password": "asd"
+};
+Path: /api/students/login; Method: POST; Query: ; Body: {
+	"login": "aaa",
+	"password": "asd"
+};
+Path: /api/students; Method: GET; Query: ; Body: ;
+Path: /favicon.ico; Method: GET; Query: ; Body: ;
+Path: /api/students/login; Method: POST; Query: ; Body: {
+	"login": "aaa",
+	"password": "asd"
+};
+Path: /api/students; Method: GET; Query: ; Body: ;
+Path: /favicon.ico; Method: GET; Query: ; Body: ;
+Path: /api/students/login; Method: POST; Query: ; Body: {
+	"login": "aaa",
+	"password": "asd"
+};
+Path: /api/students; Method: GET; Query: ; Body: ;
+Path: /favicon.ico; Method: GET; Query: ; Body: ;
+Path: /api/students/login; Method: POST; Query: ; Body: {
+	"login": "aaa",
+	"password": "asd"
+};
+Path: /api/students; Method: GET; Query: ; Body: ;
+Path: /favicon.ico; Method: GET; Query: ; Body: ;
+Path: /api/students/login; Method: POST; Query: ; Body: {
+	"login": "aaa",
+	"password": "asd"
+};
+Path: /api/students; Method: GET; Query: ; Body: ;
+Path: /favicon.ico; Method: GET; Query: ; Body: ;
+Path: /api/students/login; Method: POST; Query: ; Body: {
+	"login": "aaa",
+	"password": "asd"
+};
+Path: /api/students; Method: GET; Query: ; Body: ;
+Path: /api/students; Method: GET; Query: ; Body: ;
+Path: /api/students; Method: GET; Query: ; Body: ;
+Path: /favicon.ico; Method: GET; Query: ; Body: ;
+Path: /api/students; Method: GET; Query: ; Body: ;
+Path: /api/students/login; Method: POST; Query: ; Body: {
+	"login": "aaa",
+	"password": "asd"
+};
+Path: /api/students; Method: GET; Query: ; Body: ;
+Path: /api/students; Method: GET; Query: ; Body: ;
+Path: /favicon.ico; Method: GET; Query: ; Body: ;
+Path: /api/students; Method: GET; Query: ; Body: ;
+Path: /api/login; Method: GET; Query: ; Body: ;
+Path: /api/login; Method: POST; Query: ; Body: ;
+Path: /api/login; Method: POST; Query: ; Body: {
+	"login": "aaa",
+	"password":"fddfd"
+};
