@@ -17,6 +17,7 @@ using Microsoft.IdentityModel.Tokens;
 namespace APDB_WebRESTapi.Controllers
 {
     [ApiController]
+    [Authorize]
     [Route("api/students")]
     public class StudentsController : ControllerBase
     {

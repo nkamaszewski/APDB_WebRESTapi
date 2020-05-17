@@ -5,6 +5,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using APDB_WebRESTapi.DAL;
 using APDB_WebRESTapi.DTOs.Requests;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -18,35 +19,40 @@ namespace APDB_WebRESTapi.Controllers
     [ApiController]
     public class LoginController : ControllerBase
     {
-        public IConfiguration Configuration { get; set; }
-        public LoginController(IConfiguration configuration)
+        private ILoginDBService _loginDBService;
+    
+        public LoginController(ILoginDBService loginDBService)
         {
-            Configuration = configuration;
+            _loginDBService = loginDBService;
+      
         }
 
         [HttpPost]
         [AllowAnonymous]
         public IActionResult Login(LoginRequest loginRequest)
         {
-
-            var claims = new[]
+            var token = _loginDBService.GetToken(loginRequest);
+        
+            if(token == null)
             {
-                new Claim(ClaimTypes.NameIdentifier, "1"),
-                new Claim(ClaimTypes.Name, "jan123"),
-                new Claim(ClaimTypes.Role, "admin"),
-                new Claim(ClaimTypes.Role, "student")
-            };
+                return Unauthorized("Wrong login or password");
+            }
 
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["SecretKey"]));
-            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+            return Ok(token);
+        }
 
-            var token = new JwtSecurityToken(issuer: "Gakko", audience: "Students", claims: claims, expires: DateTime.Now.AddMinutes(10), signingCredentials: creds);
+        [HttpPost("refresh-token/{refToken}")]
+        public IActionResult RefreshToken(string refToken)
+        {
 
-            return Ok(new
+            var token = _loginDBService.RefreshToken(refToken);
+
+            if (token == null)
             {
-                token = new JwtSecurityTokenHandler().WriteToken(token),
-                refreshToken = Guid.NewGuid()
-            });
+                return BadRequest("Wrong refresh token");
+            }
+
+            return Ok(token);
         }
     }
 }

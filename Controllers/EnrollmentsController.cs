@@ -6,6 +6,7 @@ using APDB_WebRESTapi.DAL;
 using APDB_WebRESTapi.DTOs;
 using APDB_WebRESTapi.DTOs.Requests;
 using APDB_WebRESTapi.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -24,6 +25,7 @@ namespace APDB_WebRESTapi.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public IActionResult RegisterNewStudent(RegistrationStudentRequest registrationStudent)
         {
             EnrollmentStatus enrollmentStatus = _enrollmentDBService.RegisterStudent(registrationStudent);
@@ -37,6 +39,7 @@ namespace APDB_WebRESTapi.Controllers
         }
 
         [HttpPost("promotions")]
+        [Authorize]
         public IActionResult PromoteStudents(PromoteStudentsRequest promoteStudentsRequest)
         {
             EnrollmentStatus enrollmentStatus = _enrollmentDBService.PromoteStudents(promoteStudentsRequest);

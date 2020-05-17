@@ -45,6 +45,7 @@ namespace APDB_WebRESTapi
             });
 
             //AddSingleton, AddTransient, AddScoped
+            services.AddScoped<ILoginDBService, LoginDBService>();
             services.AddScoped<IStudentDBService, StudentDBService>();
             services.AddScoped<IEnrollmentDBService, EnrollmentDBService>();
             services.AddControllers();
